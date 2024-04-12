@@ -1,24 +1,31 @@
 import { Module } from '@nestjs/common';
-import { TodosController } from './todos/todos.controller';
-import { TodosService } from './todos/todos.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from './todos/todos.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      entities: [],
-      synchronize: true,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('DB_HOST'),
+        port: Number(configService.get('DB_PORT')),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_DATABASE'),
+        entities: [],
+        synchronize: false,
+        loggin: true,
+        timezone: 'local',
+      }),
     }),
     TodosModule,
   ],
-  controllers: [TodosController],
-  providers: [TodosService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class TodosService {}
+export class TodosService {
+  getAll() {
+    return 'fdsfsd';
+  }
+}
