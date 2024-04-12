@@ -7,6 +7,6 @@ export class TodosController {
 
   @Get()
   getAll() {
-    return this.todosService.getAll();
+    return this.todosService.findAll();
   }
 }
