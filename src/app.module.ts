@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from './todos/todos.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       }),
     }),
     TodosModule,
+    PostsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'posts' })
 export class Post {
   @PrimaryGeneratedColumn()
-  id: number;
+  post_id: number;
 
   @Column({ default: 0 })
   views: number;
