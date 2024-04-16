@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'posts' })
 export class Post {
   @PrimaryGeneratedColumn()
-  post_id: number;
+  id: number;
 
   @Column({ default: 0 })
   views: number;

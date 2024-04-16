@@ -14,8 +14,8 @@ export class PostsService {
     return await this.postRepository.findOne({ where: { urls: slug } });
   }
 
-  async likePost(postId: number): Promise<Post> {
-    const post = await this.postRepository.findOneBy({ post_id: postId });
+  async likePost(id: number): Promise<Post> {
+    const post = await this.postRepository.findOneBy({ id });
     console.log(post);
     post.likes += 1;
     return this.postRepository.save(post);
