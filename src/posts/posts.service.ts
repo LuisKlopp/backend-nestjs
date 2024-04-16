@@ -16,8 +16,16 @@ export class PostsService {
 
   async likePost(id: number): Promise<PostEntity> {
     const post = await this.postRepository.findOneBy({ id });
-    console.log(post);
     post.likes += 1;
     return this.postRepository.save(post);
+  }
+
+  async unlikePost(id: number) {
+    const post = await this.postRepository.findOneBy({ id });
+    if (post && post.likes > 0) {
+      post.likes -= 1;
+      await this.postRepository.save(post);
+    }
+    return post;
   }
 }

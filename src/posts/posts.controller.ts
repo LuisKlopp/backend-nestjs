@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostEntity } from './entities/post.entity';
 
@@ -13,6 +13,12 @@ export class PostsController {
 
   @Post('like/:postId')
   async likePost(@Param('postId') postId: number) {
+    console.log(typeof postId);
     return this.postsService.likePost(postId);
+  }
+
+  @Delete('like/:postId')
+  async unlikePost(@Param('postId') postId: number) {
+    return this.postsService.unlikePost(postId);
   }
 }
