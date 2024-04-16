@@ -13,7 +13,6 @@ export class PostsController {
 
   @Post('like/:postId')
   async likePost(@Param('postId') postId: number) {
-    console.log(typeof postId);
     return this.postsService.likePost(postId);
   }
 
