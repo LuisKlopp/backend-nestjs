@@ -13,4 +13,11 @@ export class PostsService {
   async getPost(slug: string): Promise<Post> {
     return await this.postRepository.findOne({ where: { urls: slug } });
   }
+
+  async likePost(postId: number): Promise<Post> {
+    const post = await this.postRepository.findOneBy({ post_id: postId });
+    console.log(post);
+    post.likes += 1;
+    return this.postRepository.save(post);
+  }
 }
