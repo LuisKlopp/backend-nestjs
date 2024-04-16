@@ -14,6 +14,14 @@ export class PostsService {
     return await this.postRepository.findOne({ where: { urls: slug } });
   }
 
+  async incrementViews(slug: string): Promise<void> {
+    const post = await this.postRepository.findOne({ where: { urls: slug } });
+    if (post) {
+      post.views += 1;
+      await this.postRepository.save(post);
+    }
+  }
+
   async likePost(id: number): Promise<void> {
     const post = await this.postRepository.findOneBy({ id });
     post.likes += 1;

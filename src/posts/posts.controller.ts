@@ -8,6 +8,7 @@ export class PostsController {
 
   @Get(':slug')
   async getPost(@Param('slug') slug: string): Promise<PostEntity> {
+    await this.postsService.incrementViews(slug);
     return await this.postsService.getPost(slug);
   }
 
