@@ -1,13 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { Post } from './entities/post.entity';
+import { PostEntity } from './entities/post.entity';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get(':slug')
-  async getPost(@Param('slug') slug: string): Promise<Post> {
+  async getPost(@Param('slug') slug: string): Promise<PostEntity> {
     return await this.postsService.getPost(slug);
+  }
+
+  @Post('like/:postId')
+  async likePost(@Param('postId') postId: number) {
+    return this.postsService.likePost(postId);
   }
 }

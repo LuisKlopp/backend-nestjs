@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Post } from './entities/post.entity';
+import { PostEntity } from './entities/post.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
-    @InjectRepository(Post)
-    private readonly postRepository: Repository<Post>,
+    @InjectRepository(PostEntity)
+    private readonly postRepository: Repository<PostEntity>,
   ) {}
 
-  async getPost(slug: string): Promise<Post> {
+  async getPost(slug: string): Promise<PostEntity> {
     return await this.postRepository.findOne({ where: { urls: slug } });
   }
 
-  async likePost(id: number): Promise<Post> {
+  async likePost(id: number): Promise<PostEntity> {
     const post = await this.postRepository.findOneBy({ id });
     console.log(post);
     post.likes += 1;
