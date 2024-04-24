@@ -22,7 +22,7 @@ import { CommentsModule } from './comments/comments.module';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: false,
         loggin: true,
-        timezone: 'local',
+        timezone: 'Asia/Seoul',
       }),
     }),
     TodosModule,
