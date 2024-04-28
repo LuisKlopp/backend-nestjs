@@ -22,7 +22,7 @@ export class Comment {
   content: string;
 
   @Column()
-  password: number;
+  password: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

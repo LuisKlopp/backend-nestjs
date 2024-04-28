@@ -11,5 +11,5 @@ export class CreateCommentDto {
 
   @IsNumber()
   @IsNotEmpty()
-  readonly password: number;
+  readonly password: string;
 }
