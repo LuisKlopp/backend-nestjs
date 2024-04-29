@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCommentDto {
   @IsString()
@@ -9,7 +9,7 @@ export class CreateCommentDto {
   @IsNotEmpty()
   readonly content: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   readonly password: string;
 }
