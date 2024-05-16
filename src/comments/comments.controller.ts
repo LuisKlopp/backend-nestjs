@@ -19,4 +19,16 @@ export class CommentsController {
   ): Promise<Comment> {
     return this.commentsService.create(postId, createCommentDto);
   }
+
+  @Post('check-password/:commentId')
+  async checkPassword(
+    @Param('commentId') commentId: number,
+    @Body() passwordBody: { password: string },
+  ): Promise<boolean> {
+    if (!passwordBody || !passwordBody.password) {
+      return false;
+    }
+    const password = passwordBody.password;
+    return this.commentsService.verifyCommentPassword(commentId, password);
+  }
 }
