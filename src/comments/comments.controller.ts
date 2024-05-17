@@ -49,7 +49,11 @@ export class CommentsController {
   }
 
   @Delete(':commentId')
-  async deleteComment(@Param('commentId') commentId: number): Promise<void> {
-    await this.commentsService.delete(commentId);
+  async deleteComment(
+    @Param('commentId') commentId: number,
+    @Body() passwordBody: { password: string },
+  ): Promise<void> {
+    const password = passwordBody.password;
+    await this.commentsService.delete(commentId, password);
   }
 }

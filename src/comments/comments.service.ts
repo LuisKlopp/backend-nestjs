@@ -56,12 +56,16 @@ export class CommentsService {
     return await this.commentRepository.save(comment);
   }
 
-  async delete(commentId: number): Promise<void> {
+  async delete(commentId: number, password: string): Promise<void> {
     const comment = await this.commentRepository.findOne({
       where: { id: commentId },
     });
     if (!comment) {
       throw new HttpException('해당하는 댓글이 없습니다', HttpStatus.NOT_FOUND);
+    }
+    console.log(password, comment.password);
+    if (password !== comment.password) {
+      throw new HttpException('비밀번호가 틀렸습니다', HttpStatus.UNAUTHORIZED);
     }
     await this.commentRepository.delete(commentId);
   }
