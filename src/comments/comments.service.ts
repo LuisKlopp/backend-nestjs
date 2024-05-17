@@ -63,7 +63,6 @@ export class CommentsService {
     if (!comment) {
       throw new HttpException('해당하는 댓글이 없습니다', HttpStatus.NOT_FOUND);
     }
-    console.log(password, comment.password);
     if (password !== comment.password) {
       throw new HttpException('비밀번호가 틀렸습니다', HttpStatus.UNAUTHORIZED);
     }
