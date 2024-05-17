@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { Comment } from './entities/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -30,5 +30,13 @@ export class CommentsController {
     }
     const password = passwordBody.password;
     return this.commentsService.verifyCommentPassword(commentId, password);
+  }
+
+  @Put(':commentId')
+  async updateComment(
+    @Param('commentId') commentId: number,
+    @Body() updateCommentDto: CreateCommentDto,
+  ): Promise<Comment> {
+    return await this.commentsService.update(commentId, updateCommentDto);
   }
 }

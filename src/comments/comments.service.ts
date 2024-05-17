@@ -33,15 +33,26 @@ export class CommentsService {
     const comment = await this.commentRepository.findOne({
       where: { id: commentId },
     });
-
     if (!comment) {
       throw new HttpException('해당하는 댓글이 없습니다', HttpStatus.NOT_FOUND);
     }
-
     if (comment.password !== password) {
       throw new HttpException('비밀번호가 틀렸습니다', HttpStatus.UNAUTHORIZED);
     }
-
     return true;
+  }
+
+  async update(
+    commentId: number,
+    updateCommentDto: CreateCommentDto,
+  ): Promise<Comment> {
+    const comment = await this.commentRepository.findOne({
+      where: { id: commentId },
+    });
+    if (!comment) {
+      throw new HttpException('해당하는 댓글이 없습니다', HttpStatus.NOT_FOUND);
+    }
+    Object.assign(comment, updateCommentDto);
+    return await this.commentRepository.save(comment);
   }
 }
