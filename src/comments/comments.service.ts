@@ -55,4 +55,14 @@ export class CommentsService {
     Object.assign(comment, updateCommentDto);
     return await this.commentRepository.save(comment);
   }
+
+  async delete(commentId: number): Promise<void> {
+    const comment = await this.commentRepository.findOne({
+      where: { id: commentId },
+    });
+    if (!comment) {
+      throw new HttpException('해당하는 댓글이 없습니다', HttpStatus.NOT_FOUND);
+    }
+    await this.commentRepository.delete(commentId);
+  }
 }
