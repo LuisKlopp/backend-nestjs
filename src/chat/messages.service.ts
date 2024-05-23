@@ -23,7 +23,10 @@ export class MessagesService {
     return this.messagesRepository.save(newMessage);
   }
 
-  async findMessagesByRoom(room_id: string): Promise<Message[]> {
-    return this.messagesRepository.find({ where: { room_id } });
+  async getMessagesByRoom(room_id: string): Promise<Message[]> {
+    return this.messagesRepository.find({
+      where: { room_id },
+      order: { created_at: 'ASC' },
+    });
   }
 }

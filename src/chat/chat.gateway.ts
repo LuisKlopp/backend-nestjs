@@ -38,10 +38,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     payload: { room: string; message: string },
   ) {
     const { room, message } = payload;
+    console.log(room, message);
     console.log(`Received message: ${message} in room: ${room}`);
+    const savedMessage = await this.messagesService.saveMessage(
+      room,
+      client.id,
+      message,
+    );
 
-    await this.messagesService.saveMessage(room, client.id, message);
-
-    this.server.to(room).emit('message', { sender: client.id, message });
+    this.server.to(room).emit('message', {
+      sender: client.id,
+      message: savedMessage.message,
+    });
   }
 }

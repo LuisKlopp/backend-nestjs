@@ -5,13 +5,13 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'messages' })
 export class Message {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  room_id: string; // 새로운 컬럼 추가
+  room_id: string;
 
   @Column()
   sender_id: string;

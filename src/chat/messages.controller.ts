@@ -10,6 +10,6 @@ export class MessagesController {
   async findMessagesByRoom(
     @Param('room_id') room_id: string,
   ): Promise<Message[]> {
-    return this.messagesService.findMessagesByRoom(room_id);
+    return this.messagesService.getMessagesByRoom(room_id);
   }
 }
