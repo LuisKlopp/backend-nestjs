@@ -1,18 +1,21 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { UserModule } from '../users/users.module';
+import { AuthController } from './auth.controller';
+import { JwtStrategy } from './jwt.strategy';
+import { UserModule } from 'src/users/users.module';
 
 @Module({
   imports: [
-    UserModule,
+    PassportModule,
     JwtModule.register({
-      secret: 'secretKey', // 비밀 키는 환경 변수로 설정하는 것이 좋습니다.
-      signOptions: { expiresIn: '60m' }, // 토큰 만료 시간
+      secret: 'yourSecretKey',
+      signOptions: { expiresIn: '60m' },
     }),
+    UserModule,
   ],
   providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+  controllers: [AuthController],
 })
 export class AuthModule {}
