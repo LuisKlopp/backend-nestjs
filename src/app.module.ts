@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { ChatModule } from './chat/chat.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
+import { QuizModule } from './quiz/quiz.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './users/users.module';
     ChatModule,
     AuthModule,
     UserModule,
+    QuizModule,
   ],
   controllers: [AppController],
   providers: [AppService],
