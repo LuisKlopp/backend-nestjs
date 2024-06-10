@@ -7,4 +7,10 @@ export class Quiz {
 
   @Column()
   question: string;
+
+  @Column()
+  yes: number;
+
+  @Column()
+  no: number;
 }

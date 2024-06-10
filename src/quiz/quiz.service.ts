@@ -1,17 +1,13 @@
-// src/quiz/quiz.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz } from './entities/quiz.entity';
-import { Answer } from './entities/answer.entity';
 
 @Injectable()
 export class QuizService {
   constructor(
     @InjectRepository(Quiz)
     private quizRepository: Repository<Quiz>,
-    @InjectRepository(Answer)
-    private answerRepository: Repository<Answer>,
   ) {}
 
   async getQuiz(): Promise<Quiz[]> {
@@ -19,25 +15,22 @@ export class QuizService {
   }
 
   async getQuizById(id: number): Promise<Quiz> {
-    return this.quizRepository.findOne({ where: { id } });
+    const quiz = await this.quizRepository.findOne({ where: { id } });
+    if (!quiz) {
+      throw new NotFoundException('Quiz not found');
+    }
+    return quiz;
   }
 
-  async saveAnswer(quizId: number, choice: string): Promise<Answer> {
-    const answer = new Answer();
-    answer.quizId = quizId;
-    answer.choice = choice;
-    return this.answerRepository.save(answer);
+  async incrementYes(id: number): Promise<Quiz> {
+    const quiz = await this.getQuizById(id);
+    quiz.yes += 1;
+    return this.quizRepository.save(quiz);
   }
 
-  async getResults(quizId: number): Promise<any> {
-    const results = await this.answerRepository.find({ where: { quizId } });
-    const counts = results.reduce(
-      (acc, answer) => {
-        acc[answer.choice] += 1;
-        return acc;
-      },
-      { O: 0, X: 0 },
-    );
-    return counts;
+  async incrementNo(id: number): Promise<Quiz> {
+    const quiz = await this.getQuizById(id);
+    quiz.no += 1;
+    return this.quizRepository.save(quiz);
   }
 }
