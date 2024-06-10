@@ -1,3 +1,4 @@
+// src/quiz/quiz.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,6 +16,10 @@ export class QuizService {
 
   async getQuiz(): Promise<Quiz[]> {
     return this.quizRepository.find();
+  }
+
+  async getQuizById(id: number): Promise<Quiz> {
+    return this.quizRepository.findOne({ where: { id } });
   }
 
   async saveAnswer(quizId: number, choice: string): Promise<Answer> {

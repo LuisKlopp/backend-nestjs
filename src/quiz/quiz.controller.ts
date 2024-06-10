@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { QuizService } from './quiz.service';
 
 @Controller('quiz')
@@ -8,6 +15,11 @@ export class QuizController {
   @Get()
   async getQuiz() {
     return this.quizService.getQuiz();
+  }
+
+  @Get(':id')
+  async getQuizById(@Param('id', ParseIntPipe) id: number) {
+    return this.quizService.getQuizById(id);
   }
 
   @Post(':quizId/answer')
