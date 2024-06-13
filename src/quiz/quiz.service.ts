@@ -19,6 +19,8 @@ export class QuizService {
     if (!quiz) {
       throw new NotFoundException('Quiz not found');
     }
+    quiz.isClicked = true;
+    await this.quizRepository.save(quiz);
     return quiz;
   }
 

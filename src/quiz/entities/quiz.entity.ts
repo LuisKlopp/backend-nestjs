@@ -13,4 +13,7 @@ export class Quiz {
 
   @Column()
   no: number;
+
+  @Column({ type: 'boolean', default: false })
+  isClicked: boolean;
 }
