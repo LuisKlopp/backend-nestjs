@@ -5,10 +5,12 @@ import {
   Param,
   ParseIntPipe,
   Body,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 
-@Controller('questions')
+@Controller('question')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
@@ -23,10 +25,11 @@ export class QuestionController {
   }
 
   @Post(':id/answer')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async addAnswer(
     @Param('id', ParseIntPipe) id: number,
     @Body('answer') answer: string,
   ) {
-    return this.questionService.addAnswer(id, answer);
+    await this.questionService.addAnswer(id, answer);
   }
 }

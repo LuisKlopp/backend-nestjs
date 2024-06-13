@@ -31,7 +31,6 @@ export class QuestionService {
   async addAnswer(questionId: number, answer: string): Promise<Answer> {
     const question = await this.getQuestionById(questionId);
     const newAnswer = this.answerRepository.create({
-      questionId,
       answer,
       question,
     });
