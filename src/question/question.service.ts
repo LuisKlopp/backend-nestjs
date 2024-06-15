@@ -30,12 +30,12 @@ export class QuestionService {
     return question;
   }
 
-  async addAnswer(questionId: number, answer: string): Promise<Answer> {
+  async addAnswer(questionId: number, answer: string) {
     const question = await this.getQuestionById(questionId);
     const newAnswer = this.answerRepository.create({
       answer,
       question,
     });
-    return this.answerRepository.save(newAnswer);
+    await this.answerRepository.save(newAnswer);
   }
 }
