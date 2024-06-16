@@ -6,7 +6,7 @@ export class Answer {
   id: number;
 
   @Column()
-  quizId: number;
+  balanceId: number;
 
   @Column()
   choice: string;
