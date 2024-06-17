@@ -22,7 +22,7 @@ export class ChoiceController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Choice> {
-    return this.choiceService.findOne(id);
+  async getChoiceById(@Param('id') id: number): Promise<Choice> {
+    return this.choiceService.getChoiceById(id);
   }
 }

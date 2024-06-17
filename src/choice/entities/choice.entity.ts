@@ -8,9 +8,12 @@ export class Choice {
   @Column()
   question: string;
 
-  @Column({ name: 'yes_counter', default: 0 })
-  yesCounter: number;
+  @Column({ name: 'yes_count', default: 0 })
+  yesCount: number;
 
-  @Column({ name: 'no_counter', default: 0 })
-  noCounter: number;
+  @Column({ name: 'no_count', default: 0 })
+  noCount: number;
+
+  @Column({ name: 'is_clicked', type: 'boolean', default: false })
+  isClicked: boolean;
 }
