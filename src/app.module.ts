@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/users.module';
 import { BalanceModule } from './balance/balance.module';
 import { QuestionModule } from './question/question.module';
+import { ChoiceModule } from './choice/choice.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { QuestionModule } from './question/question.module';
     UserModule,
     BalanceModule,
     QuestionModule,
+    ChoiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
