@@ -25,7 +25,6 @@ export class QuestionService {
     if (!question) {
       throw new NotFoundException('Question not found');
     }
-    question.isClicked = true;
     await this.questionRepository.save(question);
     return question;
   }

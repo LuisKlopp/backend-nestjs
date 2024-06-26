@@ -8,6 +8,7 @@ import {
   HttpStatus,
   HttpCode,
   Logger,
+  Patch,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 
