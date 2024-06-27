@@ -19,7 +19,6 @@ export class BalanceService {
     if (!balance) {
       throw new NotFoundException('Balance not found');
     }
-    balance.isClicked = true;
     await this.balanceRepository.save(balance);
     return balance;
   }

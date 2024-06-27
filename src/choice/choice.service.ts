@@ -19,7 +19,6 @@ export class ChoiceService {
     if (!choice) {
       throw new NotFoundException('Choice not found');
     }
-    choice.isClicked = true;
     await this.choiceRepository.save(choice);
     return choice;
   }
