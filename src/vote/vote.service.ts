@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 import { User } from '../users/entities/users.entity';
-import { ImageGame } from './entities/image-question.entity';
+import { ImageGame } from '../image-game/entities/image-game.entity';
 @Injectable()
 export class VoteService {
   constructor(

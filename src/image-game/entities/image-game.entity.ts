@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Vote } from './vote.entity';
+import { Vote } from '../../vote/entities/vote.entity';
 
 @Entity({ name: 'image_game' })
 export class ImageGame {

@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/users.entity';
-import { ImageGame } from './image-question.entity';
+import { ImageGame } from '../../image-game/entities/image-game.entity';
 
 @Entity({ name: 'votes' })
 export class Vote {
