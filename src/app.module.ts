@@ -12,6 +12,7 @@ import { UserModule } from './users/users.module';
 import { BalanceModule } from './balance/balance.module';
 import { QuestionModule } from './question/question.module';
 import { ChoiceModule } from './choice/choice.module';
+import { VoteModule } from './vote/vote.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { ChoiceModule } from './choice/choice.module';
     BalanceModule,
     QuestionModule,
     ChoiceModule,
+    VoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],

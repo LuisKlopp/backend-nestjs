@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Vote } from '../../vote/entities/vote.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -8,6 +9,6 @@ export class User {
   @Column({ length: 50 })
   nickname: string;
 
-  @Column({ length: 4 })
-  mbti: string;
+  @OneToMany(() => Vote, (vote) => vote.user)
+  votes: Vote[];
 }
