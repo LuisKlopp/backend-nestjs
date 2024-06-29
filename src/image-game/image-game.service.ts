@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ImageGame } from './entities/image-game.entity';
 import { UserService } from '../users/users.service';
-import { User } from '../users/entities/users.entity';
 import { Vote } from '../vote/entities/vote.entity';
 
 @Injectable()
@@ -15,6 +14,10 @@ export class ImageGameService {
     private readonly voteRepository: Repository<Vote>,
     private readonly userService: UserService,
   ) {}
+
+  async findAllQuestions(): Promise<ImageGame[]> {
+    return this.imageGameRepository.find();
+  }
 
   async findQuestionWithUsers(
     questionId: number,
@@ -33,7 +36,6 @@ export class ImageGameService {
       relations: ['user'],
     });
 
-    // 투표 데이터를 유저별로 매핑합니다.
     const votesMap = new Map<number, number>();
     votes.forEach((vote) => {
       votesMap.set(vote.user.id, vote.votes);

@@ -9,6 +9,9 @@ export class User {
   @Column({ length: 50 })
   nickname: string;
 
+  @Column({ length: 10 })
+  gender: string;
+
   @OneToMany(() => Vote, (vote) => vote.user)
   votes: Vote[];
 }

@@ -7,6 +7,11 @@ import { User } from '../users/entities/users.entity';
 export class ImageGameController {
   constructor(private readonly imageGameService: ImageGameService) {}
 
+  @Get()
+  async findAllQuestions(): Promise<ImageGame[]> {
+    return this.imageGameService.findAllQuestions();
+  }
+
   @Get(':id')
   async findQuestionWithUsers(
     @Param('id', ParseIntPipe) id: number,
