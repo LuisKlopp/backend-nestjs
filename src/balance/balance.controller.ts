@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  ParseIntPipe,
+  Logger,
+} from '@nestjs/common';
 import { BalanceService } from './balance.service';
 
 @Controller('balance')
 export class BalanceController {
   constructor(private readonly balanceService: BalanceService) {}
+  private readonly logger = new Logger(BalanceController.name);
 
   @Get()
   async getBalance() {
@@ -17,6 +25,7 @@ export class BalanceController {
 
   @Post(':id/increment-left')
   async incrementYes(@Param('id', ParseIntPipe) id: number) {
+    this.logger.log('API 요청');
     return this.balanceService.incrementLeft(id);
   }
 
