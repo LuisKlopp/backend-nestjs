@@ -26,7 +26,6 @@ export class BalanceService {
   async incrementLeft(id: number): Promise<Balance> {
     const balance = await this.getBalanceById(id);
     balance.leftCount += 1;
-    console.log('d');
     return this.balanceRepository.save(balance);
   }
 
