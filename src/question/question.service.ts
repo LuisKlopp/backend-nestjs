@@ -1,8 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
+import * as Mutex from 'async-mutex';
+
+const mutex = new Mutex.Mutex();
 
 @Injectable()
 export class QuestionService {
@@ -11,6 +14,7 @@ export class QuestionService {
     private questionRepository: Repository<Question>,
     @InjectRepository(Answer)
     private answerRepository: Repository<Answer>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async getQuestions(): Promise<Question[]> {
@@ -29,12 +33,21 @@ export class QuestionService {
     return question;
   }
 
-  async addAnswer(questionId: number, answer: string) {
-    const question = await this.getQuestionById(questionId);
-    const newAnswer = this.answerRepository.create({
-      answer,
-      question,
+  async addAnswer(questionId: number, answer: string): Promise<Answer> {
+    return await mutex.runExclusive(async () => {
+      return await this.dataSource.transaction(async (manager) => {
+        const question = await manager.findOne(Question, {
+          where: { id: questionId },
+        });
+        if (!question) {
+          throw new Error(`Question with id ${questionId} not found`);
+        }
+        const newAnswer = manager.create(Answer, {
+          answer,
+          question,
+        });
+        return await manager.save(newAnswer);
+      });
     });
-    await this.answerRepository.save(newAnswer);
   }
 }

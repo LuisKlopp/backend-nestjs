@@ -25,7 +25,6 @@ export class BalanceController {
 
   @Post(':id/increment-left')
   async incrementYes(@Param('id', ParseIntPipe) id: number) {
-    this.logger.log('API 요청');
     return this.balanceService.incrementLeft(id);
   }
 

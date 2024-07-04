@@ -1,13 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Choice } from './entities/choice.entity';
+import * as Mutex from 'async-mutex';
+
+const mutex = new Mutex.Mutex();
 
 @Injectable()
 export class ChoiceService {
   constructor(
     @InjectRepository(Choice)
     private choiceRepository: Repository<Choice>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async getChoices(): Promise<Choice[]> {
@@ -23,15 +27,28 @@ export class ChoiceService {
     return choice;
   }
 
+  private async updateChoiceField(
+    id: number,
+    field: 'yesCount' | 'noCount',
+  ): Promise<Choice> {
+    return await mutex.runExclusive(async () => {
+      return await this.dataSource.transaction(async (manager) => {
+        const choice = await manager.findOne(Choice, { where: { id } });
+        if (!choice) {
+          throw new Error(`Choice with id ${id} not found`);
+        }
+
+        choice[field] += 1;
+        return await manager.save(choice);
+      });
+    });
+  }
+
   async incrementYes(id: number): Promise<Choice> {
-    const choice = await this.choiceRepository.findOneBy({ id });
-    choice.yesCount += 1;
-    return this.choiceRepository.save(choice);
+    return this.updateChoiceField(id, 'yesCount');
   }
 
   async incrementNo(id: number): Promise<Choice> {
-    const choice = await this.choiceRepository.findOneBy({ id });
-    choice.noCount += 1;
-    return this.choiceRepository.save(choice);
+    return this.updateChoiceField(id, 'noCount');
   }
 }
