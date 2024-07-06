@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Vote } from './entities/vote.entity';
 import { User } from '../users/entities/users.entity';
 import { ImageGame } from '../image-game/entities/image-game.entity';
+import * as Mutex from 'async-mutex';
+
+const mutex = new Mutex.Mutex();
+
 @Injectable()
 export class VoteService {
   constructor(
@@ -13,38 +17,43 @@ export class VoteService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(ImageGame)
     private readonly questionRepository: Repository<ImageGame>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async vote(userId: number, questionId: number): Promise<Vote> {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    const question = await this.questionRepository.findOne({
-      where: { id: questionId },
-    });
+    return mutex.runExclusive(async () => {
+      return this.dataSource.transaction(async (manager) => {
+        const user = await manager.findOne(User, { where: { id: userId } });
+        const question = await manager.findOne(ImageGame, {
+          where: { id: questionId },
+        });
 
-    if (!user || !question) {
-      throw new Error('User or Question not found');
-    }
+        if (!user || !question) {
+          throw new Error('User or Question not found');
+        }
 
-    let vote = await this.voteRepository.findOne({
-      where: { user, question },
-    });
+        let vote = await manager.findOne(Vote, {
+          where: { user, question },
+        });
 
-    if (!vote) {
-      vote = this.voteRepository.create({
-        user,
-        question,
-        votes: 1,
+        if (!vote) {
+          vote = manager.create(Vote, {
+            user,
+            question,
+            votes: 1,
+          });
+        } else {
+          vote.votes += 1;
+        }
+
+        return manager.save(Vote, vote);
       });
-    } else {
-      vote.votes += 1;
-    }
-
-    return this.voteRepository.save(vote);
+    });
   }
 
   async getVotesForQuestion(questionId: number): Promise<Vote[]> {
     return this.voteRepository.find({
-      where: { id: questionId },
+      where: { question: { id: questionId } },
       relations: ['user', 'question'],
     });
   }
