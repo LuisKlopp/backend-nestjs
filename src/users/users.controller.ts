@@ -24,7 +24,7 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id/answers')
+  @Post(':id/answers')
   async addAnswer(
     @Param('id') id: number,
     @Body() createAnswerDto: CreateAnswerDto,

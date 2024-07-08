@@ -22,7 +22,7 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['answers'] });
   }
 
   async findOne(id: number): Promise<User> {
@@ -38,6 +38,7 @@ export class UserService {
     const answer = new UserAnswer();
     answer.message = createAnswerDto.message;
     answer.user = user;
+    console.log(answer);
     return await this.userAnswerRepository.save(answer);
   }
 }
