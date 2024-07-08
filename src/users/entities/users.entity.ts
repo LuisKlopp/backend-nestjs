@@ -12,6 +12,9 @@ export class User {
   @Column({ length: 10 })
   gender: string;
 
+  @Column('json', { nullable: true, default: () => "'[]'" })
+  answers: { message: string }[];
+
   @OneToMany(() => Vote, (vote) => vote.user)
   votes: Vote[];
 }

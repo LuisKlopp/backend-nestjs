@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
 import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/users.entity';
+import { CreateAnswerDto } from './dto/create-answer.dto';
 
 @Controller('users')
 export class UserController {
@@ -15,5 +16,18 @@ export class UserController {
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<User> {
+    return this.userService.findOne(id);
+  }
+
+  @Patch(':id/answers')
+  async addAnswer(
+    @Param('id') id: number,
+    @Body() createAnswerDto: CreateAnswerDto,
+  ): Promise<User> {
+    return this.userService.addAnswer(id, createAnswerDto);
   }
 }
