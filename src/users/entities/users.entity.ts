@@ -1,5 +1,6 @@
 import { Vote } from '../../vote/entities/vote.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { UserAnswer } from './user-answer.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -12,9 +13,9 @@ export class User {
   @Column({ length: 10 })
   gender: string;
 
-  @Column('json', { nullable: true, default: () => "'[]'" })
-  answers: { message: string }[];
-
   @OneToMany(() => Vote, (vote) => vote.user)
   votes: Vote[];
+
+  @OneToMany(() => UserAnswer, (answer) => answer.user)
+  answers: UserAnswer[];
 }

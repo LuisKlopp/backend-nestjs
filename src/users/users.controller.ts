@@ -3,6 +3,7 @@ import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/users.entity';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UserAnswer } from './entities/user-answer.entity';
 
 @Controller('users')
 export class UserController {
@@ -27,7 +28,7 @@ export class UserController {
   async addAnswer(
     @Param('id') id: number,
     @Body() createAnswerDto: CreateAnswerDto,
-  ): Promise<User> {
+  ): Promise<UserAnswer> {
     return this.userService.addAnswer(id, createAnswerDto);
   }
 }

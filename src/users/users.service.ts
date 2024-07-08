@@ -1,15 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/users.entity'; // 사용자 엔터티 import
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UserAnswer } from './entities/user-answer.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(UserAnswer)
+    private readonly userAnswerRepository: Repository<UserAnswer>,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -27,12 +30,14 @@ export class UserService {
     return user;
   }
 
-  async addAnswer(id: number, createAnswerDto: CreateAnswerDto): Promise<User> {
+  async addAnswer(
+    id: number,
+    createAnswerDto: CreateAnswerDto,
+  ): Promise<UserAnswer> {
     const user = await this.findOne(id);
-    if (!user.answers) {
-      user.answers = [];
-    }
-    user.answers.push(createAnswerDto);
-    return await this.userRepository.save(user);
+    const answer = new UserAnswer();
+    answer.message = createAnswerDto.message;
+    answer.user = user;
+    return await this.userAnswerRepository.save(answer);
   }
 }
