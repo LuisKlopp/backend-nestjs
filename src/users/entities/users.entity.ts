@@ -1,6 +1,6 @@
 import { Vote } from '../../vote/entities/vote.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserAnswer } from './user-answer.entity';
+import { UserAnswer } from '../../user-answer/entities/user-answer.entity';
 
 @Entity({ name: 'users' })
 export class User {

@@ -14,6 +14,7 @@ import { QuestionModule } from './question/question.module';
 import { ChoiceModule } from './choice/choice.module';
 import { VoteModule } from './vote/vote.module';
 import { ImageGameModule } from './image-game/image-game.module';
+import { UserAnswerModule } from './user-answer/user-answer.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ImageGameModule } from './image-game/image-game.module';
     ChoiceModule,
     VoteModule,
     ImageGameModule,
+    UserAnswerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

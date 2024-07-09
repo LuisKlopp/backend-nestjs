@@ -3,7 +3,7 @@ import { UserService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/users.entity';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UserAnswer } from './entities/user-answer.entity';
+import { UserAnswer } from '../user-answer/entities/user-answer.entity';
 
 @Controller('users')
 export class UserController {

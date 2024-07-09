@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/users.entity'; // 사용자 엔터티 import
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UserAnswer } from './entities/user-answer.entity';
+import { UserAnswer } from '../user-answer/entities/user-answer.entity';
 
 @Injectable()
 export class UserService {
