@@ -5,6 +5,9 @@ import { User } from './entities/users.entity'; // 사용자 엔터티 import
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UserAnswer } from '../user-answer/entities/user-answer.entity';
+import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
 
 @Injectable()
 export class UserService {
@@ -34,11 +37,12 @@ export class UserService {
     id: number,
     createAnswerDto: CreateAnswerDto,
   ): Promise<UserAnswer> {
-    const user = await this.findOne(id);
-    const answer = new UserAnswer();
-    answer.message = createAnswerDto.message;
-    answer.user = user;
-    console.log(answer);
-    return await this.userAnswerRepository.save(answer);
+    return await mutex.runExclusive(async () => {
+      const user = await this.findOne(id);
+      const answer = new UserAnswer();
+      answer.message = createAnswerDto.message;
+      answer.user = user;
+      return await this.userAnswerRepository.save(answer);
+    });
   }
 }
