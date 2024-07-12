@@ -9,6 +9,13 @@ export class Question {
   @Column()
   question: string;
 
+  @Column({
+    type: 'enum',
+    enum: ['love', 'primary', 'adult', 'none'],
+    default: 'none',
+  })
+  category: 'love' | 'primary' | 'adult' | 'none';
+
   @OneToMany(() => Answer, (answer) => answer.question)
   answers: Answer[];
 }
