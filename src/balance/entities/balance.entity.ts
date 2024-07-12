@@ -19,7 +19,4 @@ export class Balance {
 
   @Column({ name: 'right_count' })
   rightCount: number;
-
-  @Column({ name: 'is_clicked', type: 'boolean', default: false })
-  isClicked: boolean;
 }

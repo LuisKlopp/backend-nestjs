@@ -13,7 +13,4 @@ export class Choice {
 
   @Column({ name: 'no_count', default: 0 })
   noCount: number;
-
-  @Column({ name: 'is_clicked', type: 'boolean', default: false })
-  isClicked: boolean;
 }

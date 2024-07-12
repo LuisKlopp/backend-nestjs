@@ -11,7 +11,4 @@ export class Question {
 
   @OneToMany(() => Answer, (answer) => answer.question)
   answers: Answer[];
-
-  @Column({ type: 'boolean', default: false })
-  isClicked: boolean;
 }

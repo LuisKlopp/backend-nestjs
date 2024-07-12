@@ -9,9 +9,6 @@ export class ImageGame {
   @Column({ name: 'image_question' })
   question: string;
 
-  @Column({ name: 'is_clicked', default: false })
-  isClicked: boolean;
-
   @OneToMany(() => Vote, (vote) => vote.question)
   votes: Vote[];
 }
