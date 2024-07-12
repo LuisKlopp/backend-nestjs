@@ -13,4 +13,11 @@ export class Choice {
 
   @Column({ name: 'no_count', default: 0 })
   noCount: number;
+
+  @Column({
+    type: 'enum',
+    enum: ['love', 'primary', 'adult', 'none'],
+    default: 'none',
+  })
+  category: 'love' | 'primary' | 'adult' | 'none';
 }
