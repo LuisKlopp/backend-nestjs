@@ -8,7 +8,7 @@ export class HistoryUserController {
   constructor(private readonly historyUserService: HistoryUserService) {}
 
   @Get(':id/messages')
-  async getUserMessages(@Param('id') id: number): Promise<HistoryUserAnswer[]> {
+  async getUserMessages(@Param('id') id: string): Promise<HistoryUserAnswer[]> {
     return this.historyUserService.getUserMessages(id);
   }
 

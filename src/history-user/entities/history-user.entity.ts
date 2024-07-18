@@ -12,6 +12,9 @@ export class HistoryUser {
   @Column()
   gender: string;
 
+  @Column({ name: 'generate_string' })
+  generateString: string;
+
   @OneToMany(() => HistoryUserAnswer, (answer) => answer.user)
   answers: HistoryUserAnswer[];
 }

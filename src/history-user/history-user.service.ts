@@ -13,16 +13,16 @@ export class HistoryUserService {
     private readonly historyUserAnswerRepository: Repository<HistoryUserAnswer>,
   ) {}
 
-  async getUserMessages(userId: number): Promise<HistoryUserAnswer[]> {
+  async getUserMessages(generateString: string): Promise<HistoryUserAnswer[]> {
     return this.historyUserAnswerRepository.find({
-      where: { user: { id: userId } },
+      where: { user: { generateString } },
       relations: ['user'],
     });
   }
 
   async getAllUsers(): Promise<HistoryUser[]> {
     return this.historyUserRepository.find({
-      select: ['id', 'nickname', 'gender'],
+      select: ['id', 'nickname', 'gender', 'generateString'],
     });
   }
 }
