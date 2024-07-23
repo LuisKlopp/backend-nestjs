@@ -22,7 +22,7 @@ export class HistoryUserService {
 
   async getAllUsers(): Promise<HistoryUser[]> {
     return this.historyUserRepository.find({
-      select: ['id', 'nickname', 'gender', 'generateString'],
+      select: ['id', 'nickname', 'gender', 'generateString', 'visitCount'],
     });
   }
 }
