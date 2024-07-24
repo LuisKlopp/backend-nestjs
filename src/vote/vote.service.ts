@@ -13,10 +13,6 @@ export class VoteService {
   constructor(
     @InjectRepository(Vote)
     private readonly voteRepository: Repository<Vote>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(ImageGame)
-    private readonly questionRepository: Repository<ImageGame>,
     private readonly dataSource: DataSource,
   ) {}
 

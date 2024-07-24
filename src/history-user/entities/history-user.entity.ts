@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { HistoryUserAnswer } from './history-user-answer.entity';
+import { Vote } from 'src/vote/entities/vote.entity';
 
 @Entity({ name: 'history_user' })
 export class HistoryUser {
@@ -25,6 +26,9 @@ export class HistoryUser {
     default: () => '0',
   })
   checkImagePath: number;
+
+  @OneToMany(() => Vote, (vote) => vote.user)
+  votes: Vote[];
 
   @OneToMany(() => HistoryUserAnswer, (answer) => answer.user)
   answers: HistoryUserAnswer[];
