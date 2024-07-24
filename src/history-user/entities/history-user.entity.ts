@@ -18,6 +18,14 @@ export class HistoryUser {
   @Column({ name: 'visit_count' })
   visitCount: string;
 
+  @Column({
+    name: 'check_image_path',
+    type: 'tinyint',
+    width: 1,
+    default: () => '0',
+  })
+  checkImagePath: number;
+
   @OneToMany(() => HistoryUserAnswer, (answer) => answer.user)
   answers: HistoryUserAnswer[];
 }
