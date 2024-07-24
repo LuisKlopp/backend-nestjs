@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { ImageGameService } from './image-game.service';
 import { ImageGame } from './entities/image-game.entity';
-import { User } from '../users/entities/users.entity';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
 
 @Controller('image-game')
 export class ImageGameController {
@@ -15,7 +15,7 @@ export class ImageGameController {
   @Get(':id')
   async findQuestionWithUsers(
     @Param('id', ParseIntPipe) id: number,
-  ): Promise<{ question: ImageGame; users: User[] }> {
+  ): Promise<{ question: ImageGame; users: HistoryUser[] }> {
     return this.imageGameService.findQuestionWithUsers(id);
   }
 }
