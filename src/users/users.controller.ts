@@ -1,34 +1,28 @@
-import { Controller, Post, Body, Get, Param, Patch } from '@nestjs/common';
-import { UserService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './entities/users.entity';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UserAnswer } from '../user-answer/entities/user-answer.entity';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { HistoryUserService } from 'src/history-user/history-user.service';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
+import { CreateHistoryAnswerDto } from 'src/history-user/dto/create-history-answer.dto';
+import { HistoryUserAnswer } from 'src/history-user/entities/history-user-answer.entity';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
+  constructor(private readonly historyUserService: HistoryUserService) {}
 
   @Get()
-  async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  async findAll(): Promise<HistoryUser[]> {
+    return this.historyUserService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<User> {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: number): Promise<HistoryUser> {
+    return this.historyUserService.findOne(id);
   }
 
   @Post(':id/answers')
   async addAnswer(
     @Param('id') id: number,
-    @Body() createAnswerDto: CreateAnswerDto,
-  ): Promise<UserAnswer> {
-    return this.userService.addAnswer(id, createAnswerDto);
+    @Body() createHistoryAnswerDto: CreateHistoryAnswerDto,
+  ): Promise<HistoryUserAnswer> {
+    return this.historyUserService.addAnswer(id, createHistoryAnswerDto);
   }
 }
