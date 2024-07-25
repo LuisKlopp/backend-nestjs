@@ -9,5 +9,6 @@ import { HistoryUserController } from './history-user.controller';
   imports: [TypeOrmModule.forFeature([HistoryUser, HistoryUserAnswer])],
   providers: [HistoryUserService],
   controllers: [HistoryUserController],
+  exports: [HistoryUserService],
 })
 export class HistoryUserModule {}

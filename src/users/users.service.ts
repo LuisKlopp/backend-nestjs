@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/users.entity'; // 사용자 엔터티 import
-import { CreateUserDto } from './dto/create-user.dto';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UserAnswer } from '../user-answer/entities/user-answer.entity';
+import { CreateHistoryAnswerDto } from 'src/history-user/dto/create-history-answer.dto';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
+import { HistoryUserAnswer } from 'src/history-user/entities/history-user-answer.entity';
 import { Mutex } from 'async-mutex';
 
 const mutex = new Mutex();
@@ -12,37 +11,31 @@ const mutex = new Mutex();
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(UserAnswer)
-    private readonly userAnswerRepository: Repository<UserAnswer>,
+    @InjectRepository(HistoryUser)
+    private readonly historyUserRepository: Repository<HistoryUser>,
+    @InjectRepository(HistoryUserAnswer)
+    private readonly historyUserAnswerRepository: Repository<HistoryUserAnswer>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = new User();
-    user.nickname = createUserDto.nickname;
-    return await this.userRepository.save(user);
+  async findAll(): Promise<HistoryUser[]> {
+    return this.historyUserRepository.find();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find({ relations: ['answers'] });
-  }
-
-  async findOne(id: number): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { id } });
+  async findOne(id: number): Promise<HistoryUser> {
+    const user = await this.historyUserRepository.findOne({ where: { id } });
     return user;
   }
 
   async addAnswer(
     id: number,
-    createAnswerDto: CreateAnswerDto,
-  ): Promise<UserAnswer> {
+    createHistoryAnswerDto: CreateHistoryAnswerDto,
+  ): Promise<HistoryUserAnswer> {
     return await mutex.runExclusive(async () => {
       const user = await this.findOne(id);
-      const answer = new UserAnswer();
-      answer.message = createAnswerDto.message;
+      const answer = new HistoryUserAnswer();
+      answer.message = createHistoryAnswerDto.message;
       answer.user = user;
-      return await this.userAnswerRepository.save(answer);
+      return await this.historyUserAnswerRepository.save(answer);
     });
   }
 }

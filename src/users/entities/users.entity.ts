@@ -1,6 +1,6 @@
 import { Vote } from '../../vote/entities/vote.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { UserAnswer } from '../../user-answer/entities/user-answer.entity';
+import { HistoryUserAnswer } from 'src/history-user/entities/history-user-answer.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -16,6 +16,6 @@ export class User {
   @OneToMany(() => Vote, (vote) => vote.user)
   votes: Vote[];
 
-  @OneToMany(() => UserAnswer, (answer) => answer.user)
-  answers: UserAnswer[];
+  @OneToMany(() => HistoryUserAnswer, (answer) => answer.user)
+  answers: HistoryUserAnswer[];
 }

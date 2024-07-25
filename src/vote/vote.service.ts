@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Vote } from './entities/vote.entity';
-import { User } from '../users/entities/users.entity';
 import { ImageGame } from '../image-game/entities/image-game.entity';
 import * as Mutex from 'async-mutex';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
 
 const mutex = new Mutex.Mutex();
 
@@ -13,17 +13,15 @@ export class VoteService {
   constructor(
     @InjectRepository(Vote)
     private readonly voteRepository: Repository<Vote>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(ImageGame)
-    private readonly questionRepository: Repository<ImageGame>,
     private readonly dataSource: DataSource,
   ) {}
 
   async vote(userId: number, questionId: number): Promise<Vote> {
     return mutex.runExclusive(async () => {
       return this.dataSource.transaction(async (manager) => {
-        const user = await manager.findOne(User, { where: { id: userId } });
+        const user = await manager.findOne(HistoryUser, {
+          where: { id: userId },
+        });
         const question = await manager.findOne(ImageGame, {
           where: { id: questionId },
         });

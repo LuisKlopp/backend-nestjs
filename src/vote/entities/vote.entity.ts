@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { User } from '../../users/entities/users.entity';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
 import { ImageGame } from '../../image-game/entities/image-game.entity';
 
 @Entity({ name: 'votes' })
@@ -13,9 +13,9 @@ export class Vote {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.votes)
+  @ManyToOne(() => HistoryUser, (user) => user.votes)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user: HistoryUser;
 
   @ManyToOne(() => ImageGame, (question) => question.votes)
   @JoinColumn({ name: 'question_id' })

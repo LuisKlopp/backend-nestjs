@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HistoryUser } from './entities/history-user.entity';
 import { HistoryUserAnswer } from './entities/history-user-answer.entity';
+import { CreateHistoryAnswerDto } from './dto/create-history-answer.dto';
+
+import { Mutex } from 'async-mutex';
+
+const mutex = new Mutex();
 
 @Injectable()
 export class HistoryUserService {
@@ -28,9 +33,31 @@ export class HistoryUserService {
     return { user, messages };
   }
 
-  async getAllUsers(): Promise<HistoryUser[]> {
+  async findAll(): Promise<HistoryUser[]> {
+    return this.historyUserRepository.find();
+  }
+
+  async findOne(id: number): Promise<HistoryUser> {
+    const user = await this.historyUserRepository.findOne({ where: { id } });
+    return user;
+  }
+
+  async addAnswer(
+    id: number,
+    createHistoryAnswerDto: CreateHistoryAnswerDto,
+  ): Promise<HistoryUserAnswer> {
+    return await mutex.runExclusive(async () => {
+      const user = await this.findOne(id);
+      const answer = new HistoryUserAnswer();
+      answer.message = createHistoryAnswerDto.message;
+      answer.user = user;
+      return await this.historyUserAnswerRepository.save(answer);
+    });
+  }
+
+  async getCurrentUsers(): Promise<HistoryUser[]> {
     return this.historyUserRepository.find({
-      select: ['id', 'nickname', 'gender', 'generateString', 'visitCount'],
+      where: { isCurrentUser: 1 },
     });
   }
 }

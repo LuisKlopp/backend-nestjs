@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ImageGame } from './entities/image-game.entity';
-import { UserService } from '../users/users.service';
+import { HistoryUserService } from 'src/history-user/history-user.service';
 import { Vote } from '../vote/entities/vote.entity';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ImageGameService {
     private readonly imageGameRepository: Repository<ImageGame>,
     @InjectRepository(Vote)
     private readonly voteRepository: Repository<Vote>,
-    private readonly userService: UserService,
+    private readonly historyUserService: HistoryUserService,
   ) {}
 
   async findAllQuestions(): Promise<ImageGame[]> {
@@ -25,7 +25,7 @@ export class ImageGameService {
     const question = await this.imageGameRepository.findOne({
       where: { id: questionId },
     });
-    const users = await this.userService.findAll();
+    const users = await this.historyUserService.getCurrentUsers();
 
     if (!question) {
       throw new Error('Question not found');

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './users.service';
-import { UserController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/users.entity';
-import { UserAnswer } from '../user-answer/entities/user-answer.entity';
+import { HistoryUserService } from 'src/history-user/history-user.service';
+import { HistoryUserController } from 'src/history-user/history-user.controller';
+import { HistoryUser } from 'src/history-user/entities/history-user.entity';
+import { HistoryUserAnswer } from 'src/history-user/entities/history-user-answer.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserAnswer])],
-  providers: [UserService],
-  controllers: [UserController],
-  exports: [UserService],
+  imports: [TypeOrmModule.forFeature([HistoryUser, HistoryUserAnswer])],
+  providers: [HistoryUserService],
+  controllers: [HistoryUserController],
+  exports: [HistoryUserService],
 })
 export class UserModule {}
