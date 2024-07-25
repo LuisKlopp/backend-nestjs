@@ -25,7 +25,7 @@ export class ImageGameService {
     const question = await this.imageGameRepository.findOne({
       where: { id: questionId },
     });
-    const users = await this.historyUserService.findAll();
+    const users = await this.historyUserService.getCurrentUsers();
 
     if (!question) {
       throw new Error('Question not found');

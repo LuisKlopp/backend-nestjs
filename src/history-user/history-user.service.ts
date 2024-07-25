@@ -54,4 +54,10 @@ export class HistoryUserService {
       return await this.historyUserAnswerRepository.save(answer);
     });
   }
+
+  async getCurrentUsers(): Promise<HistoryUser[]> {
+    return this.historyUserRepository.find({
+      where: { isCurrentUser: 1 },
+    });
+  }
 }

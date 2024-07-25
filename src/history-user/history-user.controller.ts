@@ -8,6 +8,11 @@ import { HistoryUserAnswer } from './entities/history-user-answer.entity';
 export class HistoryUserController {
   constructor(private readonly historyUserService: HistoryUserService) {}
 
+  @Get('current-users')
+  async getCurrentUsers(): Promise<HistoryUser[]> {
+    return this.historyUserService.getCurrentUsers();
+  }
+
   @Get(':generateString/messages')
   async getUserMessagesAndInfo(
     @Param('generateString') generateString: string,
