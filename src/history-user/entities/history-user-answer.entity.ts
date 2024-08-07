@@ -15,6 +15,9 @@ export class HistoryUserAnswer {
   @Column('text')
   message: string;
 
+  @Column()
+  font: string;
+
   @ManyToOne(() => HistoryUser, (user) => user.answers, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: HistoryUser;

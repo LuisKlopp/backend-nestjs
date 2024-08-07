@@ -31,6 +31,7 @@ export class HistoryUserController {
       messages: messages.map((message) => ({
         id: message.id,
         message: message.message,
+        font: message.font,
       })),
     };
   }

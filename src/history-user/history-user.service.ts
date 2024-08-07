@@ -50,6 +50,7 @@ export class HistoryUserService {
       const user = await this.findOne(id);
       const answer = new HistoryUserAnswer();
       answer.message = createHistoryAnswerDto.message;
+      answer.font = createHistoryAnswerDto.font;
       answer.user = user;
       return await this.historyUserAnswerRepository.save(answer);
     });
