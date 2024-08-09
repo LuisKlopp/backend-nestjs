@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity('balance_random')
 export class Balance {
   @PrimaryGeneratedColumn()
   id: number;

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity('choice_random')
 export class Choice {
   @PrimaryGeneratedColumn()
   id: number;

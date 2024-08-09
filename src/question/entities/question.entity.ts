@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Answer } from './answer.entity';
 
-@Entity()
+@Entity('question_random')
 export class Question {
   @PrimaryGeneratedColumn()
   id: number;
